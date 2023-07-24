@@ -1,0 +1,23 @@
+extends layouts/main-layout.pug
+
+block styles
+  link(rel='stylesheet', href='/css/users.css')
+
+block content
+  
+    h1 List of Users Signed Up
+    if users.length > 0
+        table
+          tr
+            th Name
+            th Email
+            th Country
+            each user in users 
+                tr
+                    th #{user.username}
+                    th #{user.email}
+                    th #{user.country}
+    else
+        h1(class=(path==='/users'? 'color' : '')) No Record
+    .container
+      a(href='/', class='cta-button') Back to Hom

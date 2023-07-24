@@ -1,0 +1,100 @@
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f1f1f1;
+    margin: 0;
+    padding: 0;
+}
+
+
+
+h1 {
+    text-align: center;
+    padding: 20px;
+    background-color: #4CAF50;
+    color: white;
+    margin: 0;
+}
+
+table {
+    width: 80%;
+    margin: 20px auto;
+    border-collapse: collapse;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    background-color: #fff;
+}
+
+th, td {
+    border: 1px solid #ccc;
+    padding: 12px;
+    text-align: left;
+}
+
+th {
+    background-color: #f2f2f2;
+}
+
+tr:nth-child(even) {
+    background-color: #f2f2f2;
+}
+
+tr:hover {
+    background-color: #ddd;
+}
+
+.cta-button {
+    /* Existing styles for the CTA button */
+    display: block;
+    max-width: 200px;
+    margin: 40px auto;
+}
+
+/* Adjust the button appearance on hover */
+
+.cta-button:hover {
+    background-color: #45a049;
+}
+
+.cta-button {
+    /* Updated styles to shape it as a button */
+    display: inline-block;
+    background-color: #4CAF50;
+    color: #fff;
+    text-decoration: none;
+    padding: 12px 30px;
+    font-size: 18px;
+    border: none;
+    border-radius: 5px;
+    transition: background-color 0.3s;
+    cursor: pointer;
+}
+
+.cta-button:hover {
+    background-color: #45a049;
+}
+
+.container {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.cta-button {
+    /* Updated styles to shape it as a button and center it */
+    display: inline-block;
+    background-color: #4CAF50;
+    color: #fff;
+    text-decoration: none;
+    padding: 12px 30px;
+    font-size: 18px;
+    border: none;
+    border-radius: 5px;
+    transition: background-color 0.3s;
+    cursor: pointer;
+}
+
+.cta-button:hover {
+    background-color: #45a049;
+}
