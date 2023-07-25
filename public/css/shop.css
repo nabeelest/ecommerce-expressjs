@@ -56,3 +56,14 @@ header {
     color: #4CAF50;
     font-weight: bold;
 }
+
+.no-records {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 200px; /* Set an appropriate height */
+    font-size: 24px;
+    color: #666;
+    font-weight: bold;
+}

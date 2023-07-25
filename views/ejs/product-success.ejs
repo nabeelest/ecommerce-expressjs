@@ -1,0 +1,28 @@
+<%- include('includes/head.ejs')%>
+    <link rel="stylesheet" href="/css/product-success.css"></head>
+<body>
+    <header>
+        <h1>Product Added Successfully</h1>
+    </header>
+
+    <div class="container">
+        <div class="success-message">
+            Product has been added successfully!
+        </div>
+
+        <div class="product-details">
+            <span>Product Name:</span> <%=product.productName%>
+        </div>
+        <div class="product-details">
+            <span>Product Description:</span> <%=product.productDescription%>
+        </div>
+        <div class="product-details">
+            <span>Product Price:</span> $<%=product.productPrice%>
+        </div>
+
+        <!-- You can display more product details here as needed -->
+
+        <button onclick="window.location.href='/shop'">View All Products</button>
+    </div>
+</body>
+</html>
