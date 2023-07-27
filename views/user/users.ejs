@@ -1,0 +1,29 @@
+<%- include('../includes/head.ejs')%>
+    <link rel="stylesheet" href="/css/users.css">
+</head>
+<body>
+    <h1>List of Users Signed Up</h1>
+    <% if(users.length > 0) {  %>
+    <table>
+        <tr>
+            <th>Name</th>
+            <th>Email</th>
+            <th>Country</th>
+        </tr>
+        <% for(let user of users){ %>
+        <tr>
+            <td><%=user.username%></td>
+            <td><%=user.email%></td>
+            <td><%=user.country%></td>
+        </tr>
+        <% } %>
+    </table>
+    <% } else { %>
+    <h1>No Record</h1>
+    <% } %>
+</body>
+    <div class="container">
+        <a href="/" class="cta-button">Back to Home</a>
+    </div>
+</body>
+</html>

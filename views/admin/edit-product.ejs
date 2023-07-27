@@ -1,0 +1,27 @@
+<%- include('../includes/head.ejs') %>
+<link rel="stylesheet" href="/css/edit-product.css">
+</head>
+<body>
+    <header>
+        <h1>Edit Product</h1>
+    </header>
+
+    <div class="container">
+        <form action="/edit-product/<%= product.id %>" method="post">
+            <label for="product-name">Product Name:</label>
+            <input type="text" id="product-name" name="productName" value="<%= product.productName %>" required>
+
+            <label for="product-description">Product Description:</label>
+            <textarea id="product-description" name="productDescription" rows="4" required><%= product.productDescription %></textarea>
+
+            <label for="product-price">Product Price:</label>
+            <input type="number" id="product-price" name="productPrice" step="0.01" value="<%= product.productPrice %>" required>
+
+            <label for="product-name">Image Url:</label>
+            <input type="text" id="product-name" name="productUrl" value="<%= product.productUrl %>" required>
+
+            <button type="submit">Update Product</button>
+        </form>
+    </div>
+</body>
+</html>

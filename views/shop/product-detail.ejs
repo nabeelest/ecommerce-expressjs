@@ -1,0 +1,31 @@
+<%- include('../includes/head.ejs') %>
+<link rel="stylesheet" href="/css/product-detail.css">
+</head>
+<body>
+    <header>
+        <h1>Omega Shop - Online Store</h1>
+    </header>
+
+    <div class="container">
+        <div class="product-detail">
+            <img src="/path/to/product_image.jpg" alt="Product Image">
+            <div class="product-info">
+                <h2>Product Name</h2>
+                <p class="product-description">
+                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed at odio ipsum.
+                </p>
+                <div class="product-price">$49.99</div>
+                <div class="quantity">
+                    <label for="quantity">Quantity:</label>
+                    <input type="number" id="quantity" name="quantity" min="1" max="10" value="1">
+                </div>
+                <a href="#" class="add-to-cart">Add to Cart</a>
+            </div>
+        </div>
+    </div>
+
+    <div class="container">
+        <a href="/" class="cta-button">Go to Home</a>
+    </div>
+</body>
+</html>

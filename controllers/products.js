@@ -3,7 +3,15 @@ const Product = require('../models/product');
 
 
 exports.getProductData = (req,res,next) => {
-    res.render('add-product',{title: "Add Product - Omega Shop"});
+    res.render('admin/add-product',{title: "Add Product - Omega Shop"});
+}
+
+exports.getCheckout = (req,res,next) => {
+    res.render('shop/checkout',{title: "Add Product - Omega Shop"});
+}
+
+exports.getOrders = (req,res,next) => {
+    res.render('shop/orders',{title: "Add Product - Omega Shop",orders:[]});
 }
 
 exports.postProductData = (req,res,next) => {
@@ -12,11 +20,11 @@ exports.postProductData = (req,res,next) => {
     const productId = uuid.v4();
     const product = new Product(data.productName,data.productDescription,data.productPrice,data.productUrl,productId);  
     product.save();
-    res.render('product-success',{title: "Product Added - Omega Shop",product: data});
+    res.render('admin/product-success',{title: "Product Added - Omega Shop",product: data});
 }
 
 exports.showProductData = (req,res,next) => {
     Product.fetchAll(products => {
-        res.render('shop',{products: products, title: "Omega Shop - Online Store"});
+        res.render('shop/shop',{products: products, title: "Omega Shop - Online Store"});
     });
 }

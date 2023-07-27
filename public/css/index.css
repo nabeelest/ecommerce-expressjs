@@ -10,13 +10,20 @@ header {
     background-color: #4CAF50;
     color: #fff;
     text-align: center;
-    padding: 20px 0;
+    padding: 10px 0;
+}
+
+.left-them {
+    display: flex;
+    padding-left: 10px;
+    justify-content: flex-start;
+    align-items: center;
 }
 
 .container {
     max-width: 800px;
     margin: 0 auto;
-    padding: 20px;
+    padding: 0px;
 }
 
 h1 {
@@ -85,11 +92,3 @@ footer {
     color: #fff;
 }
 
-.center-them{
-    max-width: 800px;
-    margin: 0 auto;
-    padding: 20px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}

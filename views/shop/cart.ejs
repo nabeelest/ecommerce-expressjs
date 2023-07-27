@@ -1,0 +1,45 @@
+<%- include('../includes/head.ejs') %>
+<link rel="stylesheet" href="/css/cart.css">
+</head>
+<body>
+    <header>
+        <h1>Omega Shop - Online Store</h1>
+    </header>
+
+    <div class="container">
+        <% if(cartItems.length > 0) { %>
+            <div class="cart-items">
+                <% for(let item of cartItems) { %>
+                    <div class="cart-item">
+                        <img src="/path/to/product_image.jpg" alt="Product Image">
+                        <div class="item-info">
+                            <h2>Product Name</h2>
+                            <p class="item-description">
+                                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed at odio ipsum.
+                            </p>
+                            <div class="item-price">$49.99</div>
+                            <div class="quantity">
+                                <label for="quantity">Quantity:</label>
+                                <input type="number" id="quantity" name="quantity" min="1" max="10" value="1">
+                            </div>
+                        </div>
+                        <div class="item-total">$49.99</div>
+                    </div>
+                <% } %>
+            </div>
+            <div class="cart-total">
+                <h2>Cart Total: $149.97</h2>
+                <a href="#" class="checkout-button">Proceed to Checkout</a>
+            </div>
+        <% } else { %>
+            <div class="no-items">
+                <h1>Your Cart is Empty</h1>
+            </div>
+        <% } %>
+    </div>
+
+    <div class="container">
+        <a href="/" class="cta-button">Go to Home</a>
+    </div>
+</body>
+</html>

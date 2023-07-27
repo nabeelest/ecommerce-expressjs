@@ -1,7 +1,7 @@
 const User = require('../models/user');
 
 exports.getUserData = (req,res,next) => {
-    res.render('signup',{title: "Sign Up - Omega Social",signupCSS: true});
+    res.render('user/signup',{title: "Sign Up - Omega Social"});
 }
 
 exports.postUserData = (req,res,next) => {
@@ -10,11 +10,11 @@ exports.postUserData = (req,res,next) => {
     const user = new User(data.username,data.email,data.password,data.country);  
     user.save();
     // console.log(User.fetchAll());
-    res.render('success',{title: "Signup Successful - Omega Social",successCSS: true});
+    res.render('user/success',{title: "Signup Successful - Omega Social"});
 }
 
 exports.showUserData = (req,res,next) => {
     User.fetchAll(users => {
-        res.render('users',{users: users, title: "Users Signed Up", hasUsers: users.length > 0? true : false, usersCSS: true});
+        res.render('user/users',{users: users, title: "Users Signed Up"});
     });
 }

@@ -67,3 +67,35 @@ header {
     color: #666;
     font-weight: bold;
 }
+
+.cta-button {
+    display: inline-block;
+    background-color: #4CAF50;
+    color: #fff;
+    text-decoration: none;
+    padding: 12px 30px;
+    font-size: 18px;
+    border-radius: 5px;
+    transition: background-color 0.3s;
+    margin-right: 10px; /* Add right margin to create space between buttons */
+}
+
+.cta-button:last-child {
+    margin-right: 0; /* Remove right margin from the last button */
+}
+
+.cta-button:hover {
+    background-color: #45a049;
+}
+
+.left-them {
+    display: flex;
+    padding-left: 10px;
+    justify-content: flex-start;
+    align-items: center;
+}
+
+.cart-button{
+    padding: 5px 10px;
+    font-size: 12px;
+}
