@@ -4,15 +4,15 @@ const checkoutController = require('../controllers/products')
 
 const router = express.Router();
 
-router.get('/shop', productsController.showProductData);
+router.get('/',productsController.showProductData);
 
-router.get('/shop/cart', productsController.showProductData);
+router.get('/cart', productsController.showProductData);
 
-router.get('/shop/checkout', productsController.getCheckout);
+router.get('/checkout', productsController.getCheckout);
 
-router.get('/shop/orders', productsController.getOrders);
+router.get('/orders', productsController.getOrders);
 
-
+router.get('/product-detail/:productId', productsController.getProduct);
 
 module.exports = router;
 

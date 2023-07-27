@@ -20,8 +20,9 @@
                 <div class="product-title"><%=product.productName%></div>
                 <div class="product-description"><%=product.productDescription%></div>
                 <div class="product-price">$<%=product.productPrice%></div>
-                <form action="/cart" method="post">                
-                    <a href="/edit-product/<%=product.productId%>" class="cta-button cart-button">Add to cart</a>
+                <a href="/shop/product-detail/<%=product.productId%>" class="cta-button cart-button">Detail</a>
+                <form action="/product-detail" method="post">                
+                    <!-- <a href="/product-detail/<%=product.productId%>" class="cta-button cart-button">Detail</a> -->
                 </form>
             </div>
             <% } %>

@@ -29,7 +29,7 @@ app.use(express.static(path.join(rootDir,'public')));
 
 //routes
 app.use('/user',usersRoutes);
-app.use(shopRoutes)
+app.use('/shop',shopRoutes)
 app.use(indexRoutes);
 app.use('/admin',productsRoutes)
 app.use('/user',signupRoutes);
