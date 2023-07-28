@@ -28,7 +28,7 @@ header {
 }
 
 .product-detail img {
-    max-width: 100%;
+    max-width: 30%;
     display: block;
     margin-bottom: 15px;
 }
@@ -102,74 +102,5 @@ header {
 }
 
 .cta-button:hover {
-    background-color: #45a049;
-}
-
-/* Existing CSS rules remain the same */
-
-.product-detail {
-    display: flex;
-    flex-wrap: wrap;
-    align-items: flex-start;
-}
-
-.product-detail img {
-    max-width: 100%;
-    margin-right: 20px;
-}
-
-.product-info {
-    flex-basis: calc(70% - 20px);
-}
-
-.product-info h2 {
-    font-size: 24px;
-    font-weight: bold;
-    margin-bottom: 8px;
-}
-
-.product-description {
-    font-size: 18px;
-    color: #666;
-    margin-bottom: 20px;
-}
-
-.product-price {
-    font-size: 20px;
-    color: #4CAF50;
-    font-weight: bold;
-    margin-bottom: 20px;
-}
-
-.quantity {
-    margin-bottom: 20px;
-}
-
-.quantity label {
-    font-size: 16px;
-    margin-right: 8px;
-}
-
-.quantity input {
-    width: 60px;
-    padding: 5px;
-    font-size: 16px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-}
-
-.add-to-cart {
-    display: inline-block;
-    background-color: #4CAF50;
-    color: #fff;
-    text-decoration: none;
-    padding: 12px 30px;
-    font-size: 18px;
-    border-radius: 5px;
-    transition: background-color 0.3s;
-    cursor: pointer;
-}
-
-.add-to-cart:hover {
     background-color: #45a049;
 }

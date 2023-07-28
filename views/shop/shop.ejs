@@ -1,4 +1,4 @@
-<%- include('../includes/head.ejs')%>
+<%- include('../includes/head.ejs') %>
 <link rel="stylesheet" href="/css/shop.css">
 </head>
 <body>
@@ -7,7 +7,6 @@
             <a href="/shop/cart" class="cta-button">Cart</a>
             <a href="/shop/checkout" class="cta-button">Checkout</a>
             <a href="/shop/orders" class="cta-button">Orders</a>
-
         </div>
         <h1>Omega Shop - Online Store</h1>
     </header>
@@ -15,16 +14,13 @@
     <div class="container">
         <% if(products.length > 0) {  %>
             <% for(let product of products){ %>
-            <div class="product">
-                <img src=<%=product.productUrl%>>
-                <div class="product-title"><%=product.productName%></div>
-                <div class="product-description"><%=product.productDescription%></div>
-                <div class="product-price">$<%=product.productPrice%></div>
-                <a href="/shop/product-detail/<%=product.productId%>" class="cta-button cart-button">Detail</a>
-                <form action="/product-detail" method="post">                
-                    <!-- <a href="/product-detail/<%=product.productId%>" class="cta-button cart-button">Detail</a> -->
-                </form>
-            </div>
+                <div class="product">
+                    <img src="<%=product.productUrl%>">
+                    <div class="product-title"><%=product.productName%></div>
+                    <div class="product-description"><%=product.productDescription%></div>
+                    <div class="product-price">$<%=product.productPrice%></div>
+                    <a href="/shop/product-detail/<%=product.productId%>" class="cta-button cart-button">Detail</a>
+                </div>
             <% } %>
         <% } else { %>
             <div class="no-records">

@@ -1,35 +1,37 @@
-<%- include('../includes/head.ejs') %>
-<link rel="stylesheet" href="/css/cart.css">
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Omega Shop - Online Store</title>
+    <link rel="stylesheet" href="/css/cart.css">
 </head>
 <body>
     <header>
         <h1>Omega Shop - Online Store</h1>
     </header>
-
     <div class="container">
-        <% if(cartItems.length > 0) { %>
+        <% if(products.length > 0) { %>
             <div class="cart-items">
-                <% for(let item of cartItems) { %>
+                <% for(let product of products) { %>
                     <div class="cart-item">
-                        <img src="/path/to/product_image.jpg" alt="Product Image">
-                        <div class="item-info">
-                            <h2>Product Name</h2>
-                            <p class="item-description">
-                                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed at odio ipsum.
-                            </p>
-                            <div class="item-price">$49.99</div>
-                            <div class="quantity">
-                                <label for="quantity">Quantity:</label>
-                                <input type="number" id="quantity" name="quantity" min="1" max="10" value="1">
-                            </div>
+                        <div class="item-image">
+                            <img src="<%=product.productUrl%>" alt="Product Image">
                         </div>
-                        <div class="item-total">$49.99</div>
+                        <div class="item-details">
+                            <h2><%=product.productName%></h2>
+                            <p class="item-description">
+                                <%=product.productDescription%>
+                            </p>
+                            <div class="item-price">$<%=product.productPrice%></div>
+                            
+                        </div>
                     </div>
                 <% } %>
             </div>
             <div class="cart-total">
-                <h2>Cart Total: $149.97</h2>
-                <a href="#" class="checkout-button">Proceed to Checkout</a>
+                <h2>Cart Total: $<%= totalPrice %></h2>
+                <a href="/shop/checkout" class="checkout-button">Proceed to Checkout</a>
             </div>
         <% } else { %>
             <div class="no-items">
