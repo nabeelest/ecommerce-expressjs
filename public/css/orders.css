@@ -143,3 +143,11 @@ header {
     color: #666;
     margin-bottom: 8px;
 }
+
+footer {
+    text-align: center;
+    padding: 20px 0;
+    background-color: #4CAF50;
+    color: #fff;
+    margin-top: 400px; /* Push the footer to the bottom of the page */
+}

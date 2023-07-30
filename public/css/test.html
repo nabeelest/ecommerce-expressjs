@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Easter Egg - Omega Social</title>
+    <link rel="stylesheet" href="index.css">
+</head>
+<body>
+    <header>
+        <div class="container left-them">
+            <a href="/users" class="cta-button">Browse Users</a>
+            <a href="/shop" class="cta-button">Shop</a>
+            <a href="/add-product" class="cta-button">Add Product</a>
+        </div>
+        <h1>Omega Social</h1>
+        <p>Connect with the World</p>
+        <a href="/signup" class="cta-button">Sign Up Now</a>
+    </header>
+
+    <div class="container">
+        <h2>Easter Egg Page</h2>
+        <p>Congratulations! You found the Easter Egg!</p>
+        <img src="easter_egg_image.jpg" alt="Easter Egg" class="easter-egg-image">
+        <p>Happy Easter!</p>
+    </div>
+
+    <footer>
+        <p>&copy; 2023 Omega Social. All rights reserved.</p>
+    </footer>
+
+    <!-- Hidden Easter Egg Button -->
+    <button class="easter-egg-button" onclick="revealEasterEgg()">Click Me!</button>
+
+    <!-- Script to reveal the Easter Egg -->
+    <script>
+        function revealEasterEgg() {
+            const eggContainer = document.querySelector('.container');
+            const eggButton = document.querySelector('.easter-egg-button');
+            const eggImage = document.createElement('img');
+            eggImage.src = 'easter_egg_image.jpg';
+            eggImage.alt = 'Easter Egg';
+            eggImage.classList.add('easter-egg-image');
+            eggContainer.appendChild(eggImage);
+            eggButton.style.display = 'none';
+        }
+    </script>
+</body>
+</html>

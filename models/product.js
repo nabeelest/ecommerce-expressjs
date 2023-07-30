@@ -14,6 +14,7 @@ const getProductsFromFile = cb => {
     });
 }
 
+
 module.exports = class Product {
     constructor(name,description,price,url,uuid) {
         this.productName = name;
@@ -35,6 +36,43 @@ module.exports = class Product {
     static fetchAll(cb) {
         getProductsFromFile(cb);
     }
+
+    static deleteById(id) {
+      getProductsFromFile(products => {
+        const updatedProducts = products.filter(p => p.productId !== id);
+        fs.writeFile(p, JSON.stringify(updatedProducts), err => {
+          if (err) {
+            console.log(err);
+          } else {
+            console.log(`Product with productId ${id} has been deleted successfully.`);
+          }
+        });
+      });
+    }
+
+    static editById(id, newData) {
+      getProductsFromFile(products => {
+        const productIndex = products.findIndex(p => p.productId === id);
+    
+        if (productIndex !== -1) {
+          products[productIndex] = {
+            ...products[productIndex],
+            ...newData,
+            productId: id, // Ensure the productId remains unchanged
+          };
+    
+          fs.writeFile(p, JSON.stringify(products), err => {
+            if (err) {
+              console.log(err);
+            } else {
+              console.log(`Product with productId ${id} has been edited successfully.`);
+            }
+          });
+        } else {
+          console.log(`Product with productId ${id} not found.`);
+        }
+      });
+    }    
 
     static findById(id,cb) {
       getProductsFromFile(products => {

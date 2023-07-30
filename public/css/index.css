@@ -90,5 +90,5 @@ footer {
     padding: 20px 0;
     background-color: #4CAF50;
     color: #fff;
+    margin-top: 100px; /* Push the footer to the bottom of the page */
 }
-

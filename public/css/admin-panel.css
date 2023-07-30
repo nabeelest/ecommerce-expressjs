@@ -132,3 +132,11 @@ header {
 .list-button:hover {
     background-color: #45a049;
 }
+
+footer {
+    text-align: center;
+    padding: 20px 0;
+    background-color: #4CAF50;
+    color: #fff;
+    margin-top: 490px; /* Push the footer to the bottom of the page */
+}
