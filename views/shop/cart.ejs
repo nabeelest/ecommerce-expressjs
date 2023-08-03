@@ -24,7 +24,9 @@
                                 <%=product.productDescription%>
                             </p>
                             <div class="item-price">$<%=product.productPrice%></div>
-                            
+                            <div class="button-container">
+                                <a href="/shop/delete-product/<%=product.productId%>" class="cta-button cart-button">Delete</a>
+                            </div>
                         </div>
                     </div>
                 <% } %>
@@ -44,6 +46,5 @@
         <a href="/" class="cta-button">Go to Home</a>
     </div>
     <%- include('../includes/footer.ejs')%>
-
 </body>
 </html>

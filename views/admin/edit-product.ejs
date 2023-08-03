@@ -1,46 +1,27 @@
 <%- include('../includes/head.ejs') %>
 <link rel="stylesheet" href="/css/edit-product.css">
-<%- include('../includes/head2.ejs') %>
-
-
+<body>
+    <header>
+        <h1><%=title%></h1>
+    </header>
     <div class="container">
-    <% if (path == '/admin/edit-product') { %>
-        <form action="/admin/edit-product" method="post">
+        <form action="/admin/<% if (editing) { %>edit-product<% } else { %>add-product<% } %>" method="post">
             <label for="product-name">Product Name:</label>
-            <input type="text" id="product-name" name="productName" value="<%= product.productName %>" required>
+            <input type="text" id="product-name" name="productName" value="<% if (editing) { %><%= product.productName %><% } %>" required>
 
             <label for="product-description">Product Description:</label>
-            <textarea id="product-description" name="productDescription" rows="4" required><%= product.productDescription %></textarea>
+            <textarea id="product-description" name="productDescription" rows="4" required><% if (editing) { %><%= product.productDescription %><% } %></textarea>
 
             <label for="product-price">Product Price:</label>
-            <input type="number" id="product-price" name="productPrice" step="0.01" value="<%= product.productPrice %>" required>
+            <input type="number" id="product-price" name="productPrice" step="0.01" value="<% if (editing) { %><%= product.productPrice %><% } %>" required>
 
             <label for="product-name">Image Url:</label>
-            <input type="text" id="product-name" name="productUrl" value="<%= product.productUrl %>" required>
+            <input type="text" id="product-name" name="productUrl" value="<% if (editing) { %><%= product.productUrl %><% } %>" required>
             
-            <input type="hidden" name="productId" value="<%=product.productId%>">
+            <input type="hidden" name="productId" value="<% if (editing) { %><%= product.productId %><% } %>">
 
-            <button type="submit">Update Product</button>
+            <button type="submit"><% if (editing) { %>Update Product<% } else { %>Add Product<% } %></button>
         </form>
-    <% }else if(path == '/admin/add-product') { %>
-        <form action="/admin/add-product" method="post">
-            <label for="product-name">Product Name:</label>
-            <input type="text" id="product-name" name="productName" required>
-
-            <label for="product-description">Product Description:</label>
-            <textarea id="product-description" name="productDescription" rows="4" required></textarea>
-
-            <label for="product-price">Product Price:</label>
-            <input type="number" id="product-price" name="productPrice" step="0.01" required>
-
-            <label for="product-name">Image Url:</label>
-            <input type="text" id="product-name" name="productUrl" required>
-            
-            <input type="hidden" name="productId">
-
-            <button type="submit">Update Product</button>
-        </form>
-    <% } %>
     </div>
     <%- include('../includes/footer.ejs')%>
 
