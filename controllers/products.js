@@ -16,7 +16,11 @@ exports.getOrders = (req,res,next) => {
 }
 
 exports.showProductData = (req,res,next) => {
-    Product.fetchAll(products => {
-        res.render('shop/shop',{products: products, title: "Omega Shop - Online Store"});
-    });
+    Product.fetchAll()
+    .then(([rows,fieldData]) => {
+        console.log(rows);
+        console.log(fieldData);
+        res.render('shop/shop',{products: rows, title: "Omega Shop - Online Store"});
+    })
+    .catch(err => console.log(err));
 }

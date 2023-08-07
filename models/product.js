@@ -2,6 +2,7 @@ const fs = require('fs');
 const path = require('path');
 const rootDir = require('../util/path');
 const p = path.join(rootDir,'data','products.json');
+const db = require('../util/database');
 
 
 const getProductsFromFile = cb => {
@@ -33,8 +34,8 @@ module.exports = class Product {
         });
     }
 
-    static fetchAll(cb) {
-        getProductsFromFile(cb);
+    static fetchAll() {
+      return db.execute('SELECT * FROM products');
     }
 
     static deleteById(id) {
