@@ -7,8 +7,8 @@ exports.getAdminPanel = (req,res,next) => {
 
 // Get the Product List
 exports.getProductsList = (req,res,next) => {
-    Product.fetchAll()
-        .then(([products]) => {
+    Product.findAll()
+        .then((products) => {
             res.render('admin/products-list',{products: products, title: "Omega Shop - Online Store"});
         })
         .catch(err => console.log(err));
@@ -25,34 +25,59 @@ exports.postProductData = (req,res,next) => {
     console.log(data);
     const productId = uuid.v4();
     const product = new Product(data.productName,data.productDescription,data.productPrice,data.productUrl,productId);  
-    product.save()
-        .then(() => {
-            res.render('admin/product-success',{title: "Product Added - Omega Shop",product: data});
-        })
-        .catch(err => console.log(err));
+    Product.create({
+        productName: data.productName,
+        productDescription: data.productDescription,
+        productPrice: data.productPrice,
+        productUrl: data.productUrl,
+        productId: productId
+    })
+    .then(() => {
+        res.render('admin/product-success',{title: "Product Added - Omega Shop",product: data});
+    })
+    .catch(err => console.log(err));
 }
 
 // Edit a Product
 exports.editProductData = (req,res,next) => {
     const productId = req.params.productId;
     const editing = req.query.editing;
-    Product.findById(productId)
-        .then(([product]) => {
-            res.render('admin/edit-product',{product: product[0],editing: editing, title: "Edit - Online Store"});
+    Product.findByPk(productId)
+        .then(product => {
+            res.render('admin/edit-product',{product: product,editing: editing, title: "Edit - Online Store"});
         })
         .catch(err => console.log(err));
 }
 
 exports.postEditProductData = (req,res,next) => {
     data = req.body;
-    Product.editById(data.productId,data);
-    res.render('admin/product-edit-success',{product: data, title: "Edited Successfully - Online Store"});
+    Product.findByPk(data.productId)
+        .then(product => {
+            product.productName = data.productName;
+            product.productDescription = data.productDescription;
+            product.productPrice = data.productPrice;
+            product.productUrl = data.productUrl;
+            return product.save();
+        })
+        .then(result => {
+            console.log(result);
+            console.log('UPDATED PRODUCT!');
+            res.render('admin/product-edit-success',{product: data, title: "Edited Successfully - Online Store"});
+
+        })
+        .catch(err => console.log(err));
 }
 
 // Delete A Product
 exports.deleteProductData = (req,res,next) => {
     const productId = req.params.productId;    
-    console.log(productId)
-    Product.deleteById(productId);
-    res.redirect('/admin/products-list');
+    Product.findByPk(productId)
+        .then(product => {
+            return product.destroy();
+        })
+        .then(result => {
+            console.log('DELETED SUCCESSFULLY!');
+            res.redirect('/admin/products-list');
+        }) 
+        .catch(err => console.log(err));
 }

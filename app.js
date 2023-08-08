@@ -3,7 +3,7 @@ const express = require('express');
 const path = require('path');
 const rootDir = require('./util/path');
 const bodyParser = require('body-parser');
-const db = require('./util/database');
+const sequelize = require('./util/database');
 
 //routes import
 const usersRoutes = require('./routes/users');
@@ -27,14 +27,6 @@ app.use(bodyParser.urlencoded({extended: false}));
 //middlewares
 app.use(express.static(path.join(rootDir,'public')));
 
-// db.execute('SELECT * FROM products')
-//     .then(result => {
-//         console.log(result[0][0]);
-//     })
-//     .catch(err => {
-//         console.log(err);
-//     });
-
 //routes
 app.use('/user',usersRoutes);
 app.use('/shop',shopRoutes)
@@ -44,4 +36,8 @@ app.use('/admin',adminRoutes)
 
 app.use(errors.error404);
 
-app.listen(3000);
+sequelize.sync()
+    .then(result => {
+        app.listen(3000);
+    })
+    .catch(err => console.log(err));
