@@ -1,36 +1,27 @@
-const fs = require('fs');
-const path = require('path');
-const rootDir = require('../util/path');
-const p = path.join(rootDir,'data','users.json');
+const Sequelize = require('sequelize');
 
-const getUsersFromFile = cb => {
-    fs.readFile(p, (err, fileContent) => {
-      if (err) {
-        cb([]);
-      } else {
-        cb(JSON.parse(fileContent));
-      }
-    });
-}
+const sequelize = require('../util/database');
 
-module.exports = class User {
-    constructor(name,email,password,country) {
-        this.username = name;
-        this.email = email;
-        this.password = password;
-        this.country = country;
-    }
 
-    save() {
-        getUsersFromFile(users => {
-          users.push(this);
-          fs.writeFile(p, JSON.stringify(users), err => {
-            console.log(err);
-          });
-        });
-    }
+const User = sequelize.define('user',{
+  id: {
+    type: Sequelize.INTEGER,
+    autoIncrement: true,
+    primaryKey: true,
+    allowNull: false
+  },
+  username: {
+    type: Sequelize.STRING,
+    allowNull: false
+  },
+  email: {
+    type: Sequelize.STRING,
+    allowNull: false
+  },
+  password: {
+    type: Sequelize.STRING,
+    allowNull: false
+  }
+});
 
-    static fetchAll(cb) {
-        getUsersFromFile(cb);
-    }
-}
+module.exports = User; 

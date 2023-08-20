@@ -1,49 +1,39 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Easter Egg - Omega Social</title>
-    <link rel="stylesheet" href="index.css">
+<title><%=title%></title>
+<link rel="stylesheet" href="./orders.css">
 </head>
 <body>
     <header>
-        <div class="container left-them">
-            <a href="/users" class="cta-button">Browse Users</a>
-            <a href="/shop" class="cta-button">Shop</a>
-            <a href="/add-product" class="cta-button">Add Product</a>
-        </div>
-        <h1>Omega Social</h1>
-        <p>Connect with the World</p>
-        <a href="/signup" class="cta-button">Sign Up Now</a>
+        <h1>Omega Shop - Order History</h1>
     </header>
 
     <div class="container">
-        <h2>Easter Egg Page</h2>
-        <p>Congratulations! You found the Easter Egg!</p>
-        <img src="easter_egg_image.jpg" alt="Easter Egg" class="easter-egg-image">
-        <p>Happy Easter!</p>
+                <div class="order">
+                    <div class="order-details">
+                        <div class="order-id">Order ID: 1</div>
+                        <div class="order-date">Order Date: 15/08/2023</div>
+                        <div class="order-total">Total: $599</div>
+                    </div>
+                    <div class="order-products">
+                            <div class="product">
+                                <img src="https://pbs.twimg.com/media/F3H_UpsWUAAyzEv?format=webp&name=small" alt="Product Image">
+                                <div class="product-info">
+                                    <h2> A Phone. </h2>
+                                    <div class="product-price">Price: $599</div>
+                                    <div class="product-quantity">Quantity: 1</div>
+                                </div>
+                            </div>
+                    </div>
+                </div>
     </div>
 
+    <div class="container">
+        <a href="/" class="cta-button">Go to Home</a>
+    </div>
     <footer>
         <p>&copy; 2023 Omega Social. All rights reserved.</p>
     </footer>
-
-    <!-- Hidden Easter Egg Button -->
-    <button class="easter-egg-button" onclick="revealEasterEgg()">Click Me!</button>
-
-    <!-- Script to reveal the Easter Egg -->
-    <script>
-        function revealEasterEgg() {
-            const eggContainer = document.querySelector('.container');
-            const eggButton = document.querySelector('.easter-egg-button');
-            const eggImage = document.createElement('img');
-            eggImage.src = 'easter_egg_image.jpg';
-            eggImage.alt = 'Easter Egg';
-            eggImage.classList.add('easter-egg-image');
-            eggContainer.appendChild(eggImage);
-            eggButton.style.display = 'none';
-        }
-    </script>
 </body>
 </html>

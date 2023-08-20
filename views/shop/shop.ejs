@@ -15,11 +15,11 @@
         <% if(products.length > 0) {  %>
             <% for(let product of products){ %>
                 <div class="product">
-                    <img src="<%=product.productUrl%>">
-                    <div class="product-title"><%=product.productName%></div>
-                    <div class="product-description"><%=product.productDescription%></div>
-                    <div class="product-price">$<%=product.productPrice%></div>
-                    <a href="/shop/product-detail/<%=product.productId%>" class="cta-button cart-button">Detail</a>
+                    <img src="<%=product.url%>">
+                    <div class="product-title"><%=product.name%></div>
+                    <div class="product-description"><%=product.description%></div>
+                    <div class="product-price">$<%=product.price%></div>
+                    <a href="/shop/product-detail/<%=product.id%>" class="cta-button cart-button">Detail</a>
                 </div>
             <% } %>
         <% } else { %>

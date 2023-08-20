@@ -14,7 +14,10 @@ exports.postUserData = (req,res,next) => {
 }
 
 exports.showUserData = (req,res,next) => {
-    User.fetchAll(users => {
-        res.render('user/users',{users: users, title: "Users Signed Up"});
-    });
+    User.findAll()
+        .then(users => {
+            res.render('user/users',{users: users, title: "Users Signed Up"});
+        })
+        .catch(err => {console.log(err)});
+
 }

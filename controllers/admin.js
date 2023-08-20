@@ -1,5 +1,4 @@
 const Product = require('../models/product');
-const uuid = require('uuid');
 
 exports.getAdminPanel = (req,res,next) => {
     res.render('admin/admin-panel',{title: "Admin Panel - Omega Social"});
@@ -23,14 +22,11 @@ exports.getProductData = (req,res,next) => {
 exports.postProductData = (req,res,next) => {
     data = req.body;
     console.log(data);
-    const productId = uuid.v4();
-    const product = new Product(data.productName,data.productDescription,data.productPrice,data.productUrl,productId);  
     Product.create({
-        productName: data.productName,
-        productDescription: data.productDescription,
-        productPrice: data.productPrice,
-        productUrl: data.productUrl,
-        productId: productId
+        name: data.name,
+        description: data.description,
+        price: data.price,
+        url: data.url,
     })
     .then(() => {
         res.render('admin/product-success',{title: "Product Added - Omega Shop",product: data});
@@ -51,12 +47,12 @@ exports.editProductData = (req,res,next) => {
 
 exports.postEditProductData = (req,res,next) => {
     data = req.body;
-    Product.findByPk(data.productId)
+    Product.findByPk(data.id)
         .then(product => {
-            product.productName = data.productName;
-            product.productDescription = data.productDescription;
-            product.productPrice = data.productPrice;
-            product.productUrl = data.productUrl;
+            product.name = data.name;
+            product.description = data.description;
+            product.price = data.price;
+            product.url = data.url;
             return product.save();
         })
         .then(result => {
