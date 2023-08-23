@@ -11,16 +11,16 @@
                 <% for(let product of products) { %>
                     <div class="cart-item">
                         <div class="item-image">
-                            <img src="<%=product.url%>" alt="Product Image">
+                            <img src="<%=product.product.url%>" alt="Product Image">
                         </div>
                         <div class="item-details">
-                            <h2><%=product.name%></h2>
+                            <h2><%=product.product.name%></h2>
                             <p class="item-description">
-                                <%=product.description%>
+                                <%=product.product.description%>
                             </p>
-                            <div class="item-price">$<%=product.price%></div>
+                            <div class="item-price">$<%=product.product.price%></div>
                             <div class="button-container">
-                                <a href="/shop/delete-product/<%=product.id%>" class="cta-button cart-button">Delete</a>
+                                <a href="/shop/delete-product/<%=product.product._id%>" class="cta-button cart-button">Delete</a>
                             </div>
                         </div>
                     </div>
@@ -28,8 +28,8 @@
             </div>
             <div class="cart-total">
                 <h2>Cart Total: $<%= totalPrice %></h2>
-                <form action="/shop/checkout" method="post">
-                    <a href="/shop/checkout" class="checkout-button">Proceed to Checkout</a>
+                <form action="/shop/create-order" method="post">
+                    <button type="submit" href="/shop/checkout" class="checkout-button">Proceed to Checkout</button>
                 </form>
             </div>
         <% } else { %>

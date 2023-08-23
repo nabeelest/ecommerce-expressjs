@@ -1,7 +1,6 @@
 const express = require('express');
 const productsController = require('../controllers/products');
 const cartController = require('../controllers/cart');
-// const checkoutController = require('../controllers/products')
 
 const router = express.Router();
 
@@ -11,9 +10,11 @@ router.get('/cart', cartController.getCart);
 
 router.get('/checkout', productsController.getCheckout);
 
-// router.post('/process-checkout', productsController.postCheckout);
+router.post('/checkout', productsController.postCheckout);
 
 router.get('/orders', productsController.getOrders);
+
+router.post('/create-order', productsController.postOrder);
 
 router.post('/cart', cartController.postCart)
 

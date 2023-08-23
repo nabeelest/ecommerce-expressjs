@@ -1,15 +1,17 @@
-const Sequelize = require('sequelize');
+const mongoDb = require('mongodb');
+const getDb = require('../util/database').getDb;
 
-const sequelize = require('../util/database');
-
-
-const Order = sequelize.define('order',{
-  id: {
-    type: Sequelize.INTEGER,
-    autoIncrement: true,
-    primaryKey: true,
-    allowNull: false
+class Order {
+  static fetchAll() {
+    const db = getDb();
+    return db.collection('orders').find().toArray()
+    .then(orders => {
+      return orders;
+    })
+    .catch(err => {
+      console.log(err);
+    });
   }
-});
+}
 
 module.exports = Order; 
