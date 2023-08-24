@@ -5,7 +5,7 @@ const rootDir = require('./util/path');
 const bodyParser = require('body-parser');
 
 //database 
-const mongoConnect = require('./util/database').mongoConnect;
+const mongoose = require('mongoose');
 const User = require('./models/user');
 
 
@@ -32,15 +32,9 @@ app.use(bodyParser.urlencoded({extended: false}));
 app.use(express.static(path.join(rootDir,'public')));
 
 app.use((req,res,next) => {
-    User.findById('64e6493038bb59d9f81776f0')
+    User.findById('64e7b03253ee8ddb5a019a2d')
     .then(user => {
-        req.user = new User(
-            user.username,
-            user.email,
-            user.password,
-            user.cart,
-            user.country,
-            user._id);
+        req.user = user;
         next(); // Don't forget to call next() to continue to the next middleware/route handler
     })
     .catch(err => console.log(err));
@@ -55,7 +49,11 @@ app.use('/admin',adminRoutes);
 
 app.use(errors.error404); 
 
-mongoConnect(() => {
-    app.listen(3000);
-});
-
+mongoose.connect('mongodb+srv://nabeelest:GxKQiM2gwJNDakkD@cluster0.lbt9rcl.mongodb.net/shop?retryWrites=true&w=majority')
+    .then(result => {
+        app.listen(3000);
+        console.log('Connected! ')
+    })
+    .catch(err => {
+        console.log(err);
+    })

@@ -1,47 +1,61 @@
 const Product = require('../models/product');
 
-exports.postCart = (req,res,next) => {
-    const productId = req.body.productId;
-    let quantity = Number(req.body.quantity);
-    Product.findById(productId).then(product => {
-      return req.user.addToCart(product,quantity);
+exports.postCart = (req, res, next) => {
+  const productId = req.body.productId;
+  const quantity = Number(req.body.quantity || 1); // Default quantity to 1 if not provided
+
+  Product.findById(productId)
+    .then(product => {
+      if (!product) {
+        throw new Error('Product not found');
+      }
+      return req.user.addToCart(product, quantity);
     })
     .then(result => {
-      console.log(result);
+      console.log('Product added to cart:', result);
       res.redirect('/shop/cart');
     })
-}
+    .catch(err => {
+      console.error('Error adding product to cart:', err);
+      // Handle the error
+    });
+};
 
 exports.deleteProduct = (req, res, next) => {
   const productId = req.params.productId;
-    req.user.removeFromCart(productId)
-        .then(result => {
-            console.log('Product removed from cart:', result);
-            res.redirect('/shop/cart'); // Redirect back to the cart page
-        })
-        .catch(err => {
-            console.error('Error removing product from cart:', err);
-            // Handle the error
-        });
-}
+
+  req.user.removeFromCart(productId)
+    .then(result => {
+      console.log('Product removed from cart:', result);
+      res.redirect('/shop/cart');
+    })
+    .catch(err => {
+      console.error('Error removing product from cart:', err);
+      // Handle the error
+    });
+};
 
 exports.getCart = (req, res, next) => {
-  req.user.getCart()
-    .then(products => {
-      totalPrice = 0;
+  req.user
+    .populate('cart.items.productId')
+    .then(user => {
+      const products = user.cart.items;
+      let totalPrice = 0;
+
       products.forEach(product => {
-        totalPrice = totalPrice + Number(product.product.price) * product.quantity;
-        console.log(totalPrice);
+        if (product.productId) {
+          totalPrice += product.productId.price * product.quantity;
+        }
       });
       res.render('shop/cart', {
         products: products,
         totalPrice: totalPrice,
-        title: "Omega Shop - Online Store"
-      });        
+        title: 'Omega Shop - Online Store'
+      });
     })
     .catch(err => {
       console.error('Error fetching cart:', err);
+      // Handle the error
     });
 };
-
 

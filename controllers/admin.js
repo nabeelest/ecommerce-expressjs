@@ -6,7 +6,7 @@ exports.getAdminPanel = (req,res,next) => {
 
 // Get the Product List
 exports.getProductsList = (req,res,next) => {
-    Product.fetchAll()
+    Product.find()
         .then(products => {
             res.render('admin/products-list',{products: products, title: "Omega Shop - Online Store"});
         })
@@ -23,14 +23,13 @@ exports.getProductData = (req,res,next) => {
 exports.postProductData = (req,res,next) => {
     data = req.body;
     console.log(data);
-    const product = new Product(
-        data.name,
-        data.price,
-        data.description,
-        data.url,
-        null,
-        req.user._id
-    );
+    const product = new Product({
+        name: data.name,
+        price: data.price,
+        description: data.description,
+        url: data.url,
+        userId: req.user
+    });
     product.save()
     .then(result => {
         res.render('admin/product-success',{title: "Product Added - Omega Shop",product: data});
@@ -51,38 +50,39 @@ exports.editProductData = (req,res,next) => {
 
 exports.postEditProductData = (req, res, next) => {
     const data = req.body;
-  
-    const product = new Product(
-      data.name,
-      data.price,
-      data.description,
-      data.url,
-      data.id,
-      req.user._id
-    );
-  
-    console.log('Updating product:', product);
-  
-    product.save()
-      .then(result => {
-        console.log('Update result:', result);
-        console.log('UPDATED PRODUCT!');
-        res.render('admin/product-edit-success', {
-          product: data,
-          title: 'Edited Successfully - Online Store'
+
+    Product.findById(data.id)
+        .then(product => {
+            if (!product) {
+                return res.status(404).send('Product not found');
+            }
+
+            product.name = data.name;
+            product.price = data.price;
+            product.description = data.description;
+            product.url = data.url;
+            
+            return product.save();
+        })
+        .then(result => {
+            console.log('UPDATED PRODUCT!');
+            res.render('admin/product-edit-success', {
+                product: result,
+                title: 'Edited Successfully - Online Store'
+            });
+        })
+        .catch(err => {
+            console.error('Update error:', err);
+            res.status(500).send('Update operation failed');
         });
-      })
-      .catch(err => {
-        console.error('Update error:', err);
-        res.status(500).send('Update operation failed');
-      });
-  };
+};
+
   
 
 // Delete A Product
 exports.deleteProductData = (req,res,next) => {
     const productId = req.params.productId;    
-    Product.deleteById(productId)
+    Product.findByIdAndRemove(productId)
         .then(result => {
             res.redirect('/admin/products-list');
         })

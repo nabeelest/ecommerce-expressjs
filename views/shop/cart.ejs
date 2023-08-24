@@ -11,16 +11,16 @@
                 <% for(let product of products) { %>
                     <div class="cart-item">
                         <div class="item-image">
-                            <img src="<%=product.product.url%>" alt="Product Image">
+                            <img src="<%=product.productId.url%>" alt="Product Image">
                         </div>
                         <div class="item-details">
-                            <h2><%=product.product.name%></h2>
+                            <h2><%=product.productId.name%></h2>
                             <p class="item-description">
-                                <%=product.product.description%>
+                                <%=product.productId.description%>
                             </p>
-                            <div class="item-price">$<%=product.product.price%></div>
+                            <div class="item-price">$<%=product.productId.price%></div>
                             <div class="button-container">
-                                <a href="/shop/delete-product/<%=product.product._id%>" class="cta-button cart-button">Delete</a>
+                                <a href="/shop/delete-product/<%=product.productId._id%>" class="cta-button cart-button">Delete</a>
                             </div>
                         </div>
                     </div>

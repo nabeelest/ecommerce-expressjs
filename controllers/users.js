@@ -6,14 +6,23 @@ exports.getUserData = (req,res,next) => {
 
 exports.postUserData = (req,res,next) => {
     data = req.body;
-    console.log(data);
-    const user = new User(data.username, data.email, data.password, { items: [] }, data.country);
-    user.save();
-    res.render('user/success',{title: "Signup Successful - Omega Social"});
+    const user = new User(
+        {
+        username: data.username, 
+        email: data.email, 
+        password: data.password, 
+        cart: { items: [] }, 
+        country: data.country
+        }
+    );
+    user.save().then(result => {
+        res.render('user/success',{title: "Signup Successful - Omega Social"});
+    })
+    .catch(err => console.log(err));
 }
 
 exports.showUserData = (req,res,next) => {
-    User.fetchAll()
+    User.find()
         .then(users => {
             res.render('user/users',{users: users, title: "Users Signed Up"});
         })
