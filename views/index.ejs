@@ -3,15 +3,22 @@
 </head>
 <body>
     <header>
+        <div class="right-corner">
+            <% if(!isAuthenticated) { %>
+                <a href="/user/login" class="cta-button">Login</a>
+            <% } %>   
+        </div>
         <!-- Move the buttons to the left side of the header -->
         <div class="left-them">
-            <a href="/user/showusers" class="cta-button">Users</a>        
-            <a href="/shop" class="cta-button">Shop</a>
-            <a href="/admin" class="cta-button">Admin Panel</a>
+            <% if(isAuthenticated) { %>
+                <a href="/shop" class="cta-button">Shop</a>
+            <% } %>  
         </div>
         <h1>Omega Social</h1>
         <p>Connect with the World</p>
-        <a href="user/signup" class="cta-button">Sign Up Now</a>
+        <% if(!isAuthenticated) { %>
+            <a href="user/signup" class="cta-button">Sign Up Now</a>
+        <% } %> 
     </header>
 
     <div class="container">
@@ -21,7 +28,7 @@
             share your life moments, and discover new interests.
         </p>
 
-        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSWFPdcyMXoypTdRt1Yb-cUlwoU_2oY2wat7L9u-RYIwxoIZbarTUyvuSJRVAilQhyA8ZU&usqp=CAU" alt="Omega Social App Screenshot" class="app-screenshot">
+        <!-- <img src="" alt="Omega Social App Screenshot" class="app-screenshot"> -->
 
         <h2>Key Features</h2>
         <div class="features">
@@ -44,6 +51,5 @@
     </div>
 
     <%- include('includes/footer.ejs')%>
-
 </body>
 </html>

@@ -42,11 +42,14 @@ p {
     background-color: #4CAF50;
     color: #fff;
     text-decoration: none;
-    padding: 12px 30px;
-    font-size: 18px;
-    border-radius: 5px;
+    padding: 14px 32px; /* Slightly increase padding for a larger button */
+    font-size: 14px; /* Slightly increase font size */
+    border-radius: 8px; /* Increase border radius for a rounded look */
     transition: background-color 0.3s;
-    margin-right: 10px; /* Add right margin to create space between buttons */
+    margin-right: 15px; /* Adjust margin for spacing */
+
+    border: 3px solid #aef6c3; /* Change border color to a contrasting color */
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2); /* Add a subtle box shadow for depth */
 }
 
 .cta-button:last-child {
@@ -55,6 +58,7 @@ p {
 
 .cta-button:hover {
     background-color: #45a049;
+    border-color: #45a049; /* Change border color on hover */
 }
 
 .app-screenshot {
@@ -91,4 +95,10 @@ footer {
     background-color: #4CAF50;
     color: #fff;
     margin-top: 100px; /* Push the footer to the bottom of the page */
+}
+
+.right-corner {
+    position: absolute;
+    top: 10px;
+    right: 10px;
 }

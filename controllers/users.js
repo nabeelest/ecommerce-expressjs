@@ -1,10 +1,21 @@
 const User = require('../models/user');
 
-exports.getUserData = (req,res,next) => {
+exports.getSignup = (req,res,next) => {
     res.render('user/signup',{title: "Sign Up - Omega Social"});
 }
 
-exports.postUserData = (req,res,next) => {
+exports.getLogin = (req,res,next) => {
+    res.render('user/login',{title: "Login - Omega Social"});
+}
+
+exports.postLogin = (req,res,next) => {
+    data = req.body;
+    res.setHeader('Set-Cookie', 'loggedIn=true; Max-Age=3600; Path=/');
+    res.redirect('/');
+}
+
+
+exports.postSignup = (req,res,next) => {
     data = req.body;
     const user = new User(
         {
