@@ -1,24 +1,28 @@
-<%- include('includes/head.ejs')%>
+<%- include('includes/head.ejs') %>
 <link rel="stylesheet" href="/css/index.css">
 </head>
 <body>
     <header>
         <div class="right-corner">
-            <% if(!isAuthenticated) { %>
+            <% if(isAuthenticated) { %>
+                <form action="/user/logout" method="post">
+                    <button type="submit" class="cta-button">Logout</button>
+                </form>
+            <% } else { %>
                 <a href="/user/login" class="cta-button">Login</a>
-            <% } %>   
+            <% } %>
         </div>
         <!-- Move the buttons to the left side of the header -->
         <div class="left-them">
             <% if(isAuthenticated) { %>
                 <a href="/shop" class="cta-button">Shop</a>
-            <% } %>  
+            <% } %>
         </div>
         <h1>Omega Social</h1>
         <p>Connect with the World</p>
         <% if(!isAuthenticated) { %>
             <a href="user/signup" class="cta-button">Sign Up Now</a>
-        <% } %> 
+        <% } %>
     </header>
 
     <div class="container">
@@ -50,6 +54,6 @@
         </div>
     </div>
 
-    <%- include('includes/footer.ejs')%>
+    <%- include('includes/footer.ejs') %>
 </body>
 </html>

@@ -56,7 +56,6 @@ exports.postEditProductData = (req, res, next) => {
             if (!product) {
                 return res.status(404).send('Product not found');
             }
-
             product.name = data.name;
             product.price = data.price;
             product.description = data.description;

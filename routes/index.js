@@ -5,7 +5,7 @@ const rootDir = require('../util/path');
 const router = express.Router();
 
 router.get('/',(req,res,next) => {
-    const isLoggedIn = req.get('Cookie').split(';')[1].trim().split('=')[1] === 'true'
+    const isLoggedIn = req.session.isLoggedIn;
     res.render('index',{title: "Omega Social - Connect with the World",indexCSS: true,isAuthenticated: isLoggedIn});
 });
 

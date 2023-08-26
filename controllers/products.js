@@ -16,20 +16,8 @@ exports.postCheckout = (req, res, next) => {
     };
     req.user.address = address;
     req.user.card = cardDetails;
-    User.findById(req.user._id)
-        .then(user => {
-            user.address = address;
-            user.card = cardDetails;
-            return user.save();
-        })
-        .then(result => {
-            console.log('User details updated:', result);
-            res.redirect('/shop/orders'); // Redirect back to the user's profile page
-        })
-        .catch(err => {
-            console.error('Error updating user details:', err);
-            // Handle the error
-        });
+    req.user.save();
+    res.redirect('/shop/orders'); // Redirect back to the user's profile page
 }
 
 exports.getProduct = (req,res,next) => {

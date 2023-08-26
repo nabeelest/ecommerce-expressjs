@@ -76,7 +76,7 @@ userSchema.methods.removeFromCart = async function (productId) {
   return this.save();
 };
 
-userSchema.methods.clearCart = async function (productId) {
+userSchema.methods.clearCart = async function () {
   this.cart = {items: []};
   return this.save();
 };

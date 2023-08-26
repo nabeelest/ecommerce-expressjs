@@ -36,9 +36,8 @@ exports.deleteProduct = (req, res, next) => {
 };
 
 exports.getCart = (req, res, next) => {
-  req.user
-    .populate('cart.items.productId')
-    .then(user => {
+  req.user.populate('cart.items.productId')
+  .then(user => {
       const products = user.cart.items;
       let totalPrice = 0;
 
@@ -55,7 +54,6 @@ exports.getCart = (req, res, next) => {
     })
     .catch(err => {
       console.error('Error fetching cart:', err);
-      // Handle the error
     });
 };
 

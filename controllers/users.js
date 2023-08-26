@@ -8,12 +8,34 @@ exports.getLogin = (req,res,next) => {
     res.render('user/login',{title: "Login - Omega Social"});
 }
 
-exports.postLogin = (req,res,next) => {
-    data = req.body;
-    res.setHeader('Set-Cookie', 'loggedIn=true; Max-Age=3600; Path=/');
-    res.redirect('/');
+exports.postLogout = (req,res,next) => {
+    req.session.destroy(err => {
+        console.log(err);
+        res.redirect('/');
+    })
 }
 
+exports.postLogin = (req, res, next) => {
+    const userEmail = req.body.email;
+    User.findOne({ email: userEmail })
+        .then(user => {
+            if (user) {
+                console.log("Found user:", user);
+                if (req.body.password == user.password) {
+                    req.session.user = user;
+                    req.session.isLoggedIn = true;
+                }
+            } else {
+                console.log("User not found.");
+            }
+            // Redirect inside the then block
+            res.redirect('/');
+        })
+        .catch(err => {
+            console.error("Error finding user:", err);
+            res.redirect('/'); // Handle error redirect
+        });
+};
 
 exports.postSignup = (req,res,next) => {
     data = req.body;
