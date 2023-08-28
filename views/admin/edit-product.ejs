@@ -6,6 +6,8 @@
     </header>
     <div class="container">
         <form action="/admin/<% if (editing) { %>edit-product<% } else { %>add-product<% } %>" method="post">
+            <input type="hidden" name="_csrf" value="<%=csrfToken%>" id="">
+
             <label for="product-name">Product Name:</label>
             <input type="text" id="product-name" name="name" value="<% if (editing) { %><%= product.name %><% } %>" required>
 

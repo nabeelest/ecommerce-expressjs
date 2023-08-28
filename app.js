@@ -6,6 +6,7 @@ const session = require('express-session');
 const MongoDBStore = require('connect-mongodb-session')(session);
 const mongoose = require('mongoose');
 const User = require('./models/user'); 
+const csrf = require('csurf');
 
 const usersRoutes = require('./routes/users');
 const indexRoutes = require('./routes/index');
@@ -22,12 +23,16 @@ const store = new MongoDBStore({
     collection: 'sessions'
 });
 
+const csrfProtection = csrf();
+
 app.use(session({
     secret: 'my secret',
     resave: false,
     saveUninitialized: false,
     store: store
 }));
+
+app.use(csrfProtection);
 
 app.use((req, res, next) => {
     if (!req.session.user) {
@@ -39,6 +44,11 @@ app.use((req, res, next) => {
             next();
         })
         .catch(err => console.log(err));
+});
+
+app.use((req, res, next) => {
+    res.locals.csrfToken = req.csrfToken();
+    next();
 });
 
 app.set('view engine','ejs');

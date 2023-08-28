@@ -6,6 +6,7 @@
         <div class="right-corner">
             <% if(isAuthenticated) { %>
                 <form action="/user/logout" method="post">
+                    <input type="hidden" name="_csrf" value="<%= csrfToken %>" id="">
                     <button type="submit" class="cta-button">Logout</button>
                 </form>
             <% } else { %>
@@ -24,7 +25,7 @@
             <a href="user/signup" class="cta-button">Sign Up Now</a>
         <% } %>
     </header>
-
+    
     <div class="container">
         <h2>Welcome to Omega Social</h2>
         <p>

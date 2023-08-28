@@ -3,9 +3,11 @@ const Product = require('../models/product');
 exports.postCart = (req, res, next) => {
   const productId = req.body.productId;
   const quantity = Number(req.body.quantity || 1); // Default quantity to 1 if not provided
+  console.log(productId);
 
   Product.findById(productId)
     .then(product => {
+      console.log(product);
       if (!product) {
         throw new Error('Product not found');
       }
@@ -31,7 +33,6 @@ exports.deleteProduct = (req, res, next) => {
     })
     .catch(err => {
       console.error('Error removing product from cart:', err);
-      // Handle the error
     });
 };
 

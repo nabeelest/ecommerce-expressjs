@@ -29,6 +29,7 @@
             <div class="cart-total">
                 <h2>Cart Total: $<%= totalPrice %></h2>
                 <form action="/shop/create-order" method="post">
+                    <input type="hidden" name="_csrf" value="<%= csrfToken %>" id="">
                     <button type="submit" href="/shop/checkout" class="checkout-button">Proceed to Checkout</button>
                 </form>
             </div>

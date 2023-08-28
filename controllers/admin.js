@@ -16,7 +16,10 @@ exports.getProductsList = (req,res,next) => {
 // Add a Product
 exports.getProductData = (req,res,next) => {
     const editing = req.query.editing;
-    res.render('admin/edit-product',{title: "Add Product - Omega Shop",editing: editing});
+    res.render('admin/edit-product',{
+        title: "Add Product - Omega Shop",
+        editing: editing
+    });
 }
 
 

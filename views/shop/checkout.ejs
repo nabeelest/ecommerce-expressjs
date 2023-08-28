@@ -10,6 +10,8 @@
         <div class="checkout-form">
             <h2>Checkout</h2>
             <form action="/shop/checkout" method="post">
+                <input type="hidden" name="_csrf" value="<%=csrfToken%>" id="">
+
                 <div class="form-group">
                     <label for="name">Name:</label>
                     <input type="text" id="name" name="name" required>

@@ -8,6 +8,8 @@
 
     <div class="container">
         <form action="/user/login" method="post">
+            <input type="hidden" name="_csrf" value="<%=csrfToken%>" id="">
+
             <label for="email">Email:</label>
             <input type="email" name="email" id="email" placeholder="Enter your email" required>
 

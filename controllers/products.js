@@ -4,7 +4,9 @@ const User = require('../models/user');
 
 
 exports.getCheckout = (req,res,next) => {
-    res.render('shop/checkout',{title: "Add Product - Omega Shop"});
+    res.render('shop/checkout',{
+        title: "Add Product - Omega Shop"
+    });
 }
 
 exports.postCheckout = (req, res, next) => {
@@ -24,7 +26,10 @@ exports.getProduct = (req,res,next) => {
     const productId = req.params.productId;
     Product.findById(productId)
     .then(product => {
-        res.render('shop/product-detail',{product: product, title: "Omega Shop - Online Store"});
+        res.render('shop/product-detail',{
+            product: product, 
+            title: "Omega Shop - Online Store"
+        });
     })
     .catch(err => console.log(err))
 }
@@ -92,7 +97,10 @@ exports.postOrder = (req, res, next) => {
 exports.showProductData = (req,res,next) => {
     Product.find()
         .then(products => {
-            res.render('shop/shop',{products: products, title: "Omega Shop - Online Store"});
+            res.render('shop/shop',{
+                products: products, 
+                title: "Omega Shop - Online Store"
+            });
         })
         .catch(err => console.log(err));
 }
