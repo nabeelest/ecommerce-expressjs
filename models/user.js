@@ -29,6 +29,8 @@ const userSchema = new Schema({
       }
     ]
   },
+  token: {type: String},
+  tokenExpiry: {type: Date},
   country: {
     type: String,
     required: true

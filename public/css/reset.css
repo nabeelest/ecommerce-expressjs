@@ -1,13 +1,17 @@
+/* Reset some default styles */
+body, h1, h2, h3, h4, h5, h6, p {
+    margin: 0;
+    padding: 0;
+}
+
 body {
     font-family: Arial, sans-serif;
     line-height: 1.6;
-    margin: 0;
-    padding: 0;
     background-color: #f1f1f1;
 }
 
 header {
-    background-color: #4CAF50;
+    background-color: #4CAF50; /* Same color as signup page */
     color: #fff;
     text-align: center;
     padding: 20px 0;
@@ -27,35 +31,25 @@ h1 {
 }
 
 form {
-    /* Add this rule to align text boxes with div borders */
-    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
 }
 
 label {
-    display: block;
     font-size: 18px;
     margin-bottom: 8px;
 }
 
-input[type="text"],
-input[type="number"],
-textarea {
-    /* Add this rule to align text boxes with div borders */
-    box-sizing: border-box;
-
-    width: 100%;
+input[type="email"],
+input[type="password"] {
     padding: 10px;
-    margin-bottom: 20px;
     font-size: 16px;
+    margin-bottom: 20px;
     border: 1px solid #ccc;
     border-radius: 5px;
 }
 
-textarea {
-    resize: vertical;
-}
-
-button {
+.cta-button {
     background-color: #4CAF50;
     color: #fff;
     text-decoration: none;
@@ -66,24 +60,10 @@ button {
     transition: background-color 0.3s;
     cursor: pointer;
     text-align: center;
-    display: inline-block;
 }
 
-button:hover {
+.cta-button:hover {
     background-color: #45a049;
-}
-
-h1 {
-    font-size: 28px;
-    margin-bottom: 20px;
-}
-
-footer {
-    text-align: center;
-    padding: 20px 0;
-    background-color: #4CAF50;
-    color: #fff;
-    margin-top: 100px; /* Push the footer to the bottom of the page */
 }
 
 .flash-message {
@@ -92,4 +72,12 @@ footer {
     padding: 10px;
     border-radius: 5px;
     margin-top: 20px;
+}
+
+footer {
+    text-align: center;
+    padding: 20px 0;
+    background-color: #4CAF50;
+    color: #fff;
+    margin-top: 100px;
 }

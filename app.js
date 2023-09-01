@@ -1,19 +1,20 @@
 const express = require('express');
 const path = require('path');
-const rootDir = require('./util/path');
 const bodyParser = require('body-parser');
 const session = require('express-session');
 const MongoDBStore = require('connect-mongodb-session')(session);
 const mongoose = require('mongoose');
-const User = require('./models/user'); 
-const csrf = require('csurf');
+const User = require('./models/user');
+const flash = require('connect-flash');
 
 const usersRoutes = require('./routes/users');
 const indexRoutes = require('./routes/index');
 const shopRoutes = require('./routes/shop');
-const signupRoutes = require('./routes/signup');
+const signupRoutes = require('./routes/auth');
 const adminRoutes = require('./routes/admin');
 const errors = require('./controllers/errors');
+const rootDir = require('./util/path');
+
 URI = 'mongodb+srv://nabeelest:GxKQiM2gwJNDakkD@cluster0.lbt9rcl.mongodb.net/shop';
 
 const app = express();
@@ -23,7 +24,6 @@ const store = new MongoDBStore({
     collection: 'sessions'
 });
 
-const csrfProtection = csrf();
 
 app.use(session({
     secret: 'my secret',
@@ -32,7 +32,9 @@ app.use(session({
     store: store
 }));
 
-app.use(csrfProtection);
+
+app.use(flash());
+
 
 app.use((req, res, next) => {
     if (!req.session.user) {
@@ -44,11 +46,6 @@ app.use((req, res, next) => {
             next();
         })
         .catch(err => console.log(err));
-});
-
-app.use((req, res, next) => {
-    res.locals.csrfToken = req.csrfToken();
-    next();
 });
 
 app.set('view engine','ejs');

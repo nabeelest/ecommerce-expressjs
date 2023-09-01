@@ -95,7 +95,7 @@ exports.postOrder = (req, res, next) => {
 
 
 exports.showProductData = (req,res,next) => {
-    Product.find()
+    Product.find({userId: req.user._id})
         .then(products => {
             res.render('shop/shop',{
                 products: products, 

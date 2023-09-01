@@ -1,0 +1,31 @@
+<%- include('../includes/head.ejs') %>
+<link rel="stylesheet" href="/css/reset.css">
+</head>
+<body>
+    <header>
+        <h1>Reset Your Password</h1>
+    </header>
+
+    <div class="container">
+        <form action="/user/reset" method="post">
+
+            <label for="newPassword">New Password:</label>
+            <input type="password" name="newPassword" id="newPassword" placeholder="Enter your new password" required>
+
+            <label for="confirmPassword">Confirm Password:</label>
+            <input type="password" name="confirmPassword" id="confirmPassword" placeholder="Confirm your new password" required>
+            <input type="hidden" name="userId" value="<%= userId %>">
+            <input type="hidden" name="token" value="<%= token%>">
+            <button type="submit" class="cta-button">Reset Password</button>
+        </form>
+
+        <% if (errorMessage) { %>
+            <div class="flash-message">
+                <p><%= errorMessage %></p>
+            </div>
+        <% } %>
+        
+    </div>
+    <%- include('../includes/footer.ejs') %>
+</body>
+</html>

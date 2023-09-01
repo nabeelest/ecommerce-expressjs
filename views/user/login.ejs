@@ -7,17 +7,25 @@
     </header>
 
     <div class="container">
-        <form action="/user/login" method="post">
-            <input type="hidden" name="_csrf" value="<%=csrfToken%>" id="">
+        <% if (errorMessage) { %>
+            <div class="flash-message">
+                <p><%= errorMessage %></p>
+            </div>
+        <% } %>
+        <form action="/user/login" method="post" novalidate>
 
             <label for="email">Email:</label>
-            <input type="email" name="email" id="email" placeholder="Enter your email" required>
+            <input type="email" name="email" id="email" value="<%= oldInput.email %>" placeholder="Enter your email" required>
 
             <label for="password">Password:</label>
-            <input type="password" name="password" id="password" placeholder="Enter your password" required>
+            <input type="password" name="password" value="<%= oldInput.password %>" id="password" placeholder="Enter your password" required>
 
             <button type="submit" class="cta-button">Login</button>
         </form>
+
+        <a href="/user/forget-password" class="forgot-password-button">Forgot Password?</a>
+        
+        
     </div>
     <%- include('../includes/footer.ejs')%>
 </body>

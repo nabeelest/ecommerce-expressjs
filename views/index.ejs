@@ -6,7 +6,6 @@
         <div class="right-corner">
             <% if(isAuthenticated) { %>
                 <form action="/user/logout" method="post">
-                    <input type="hidden" name="_csrf" value="<%= csrfToken %>" id="">
                     <button type="submit" class="cta-button">Logout</button>
                 </form>
             <% } else { %>
