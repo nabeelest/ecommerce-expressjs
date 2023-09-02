@@ -12,7 +12,7 @@ const indexRoutes = require('./routes/index');
 const shopRoutes = require('./routes/shop');
 const signupRoutes = require('./routes/auth');
 const adminRoutes = require('./routes/admin');
-const errors = require('./controllers/errors');
+const errors = require('./routes/errors');
 const rootDir = require('./util/path');
 
 URI = 'mongodb+srv://nabeelest:GxKQiM2gwJNDakkD@cluster0.lbt9rcl.mongodb.net/shop';
@@ -45,7 +45,11 @@ app.use((req, res, next) => {
             req.user = user;
             next();
         })
-        .catch(err => console.log(err));
+        .catch(err => {
+            const error = new Error(err);
+            error.httpStatusCode = 500;
+            return next(error); 
+        });
 });
 
 app.set('view engine','ejs');
@@ -61,8 +65,12 @@ app.use('/user', signupRoutes);
 app.use('/admin', adminRoutes);
 
 // Make sure to place this after all route handlers
-app.use(errors.error404);
+app.use(errors);
 
+
+app.use((error,req,res,next) => {
+    res.status(505).render('errors/505',{title:'Error 505  - Omega Social', errorCSS: true});
+});
 mongoose.connect(URI)
     .then(result => {
         app.listen(3000);

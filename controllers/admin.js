@@ -1,5 +1,6 @@
 const Product = require('../models/product');
 const { validationResult } = require('express-validator');
+const mongoose = require('mongoose');
 
 exports.getAdminPanel = (req, res, next) => {
     res.render('admin/admin-panel', { title: "Admin Panel - Omega Social" });
@@ -11,8 +12,11 @@ exports.getProductsList = (req, res, next) => {
         .then(products => {
             res.render('admin/products-list', { products: products, title: "Omega Shop - Online Store" });
         })
-        .catch(err => console.log(err));
-};
+        .catch(err => {
+            const error = new Error(err);
+            error.httpStatusCode = 500;
+            return next(error); 
+        });};
 
 // Add a Product
 exports.getProductData = (req, res, next) => {
@@ -54,7 +58,11 @@ exports.postProductData = (req, res, next) => {
         .then(result => {
             res.render('admin/product-success', { title: "Product Added - Omega Shop", product: data });
         })
-        .catch(err => console.log(err));
+        .catch(err => {
+            const error = new Error(err);
+            error.httpStatusCode = 500;
+            return next(error); 
+        });
 };
 
 // Edit a Product
@@ -65,8 +73,11 @@ exports.editProductData = (req, res, next) => {
         .then(product => {
             res.render('admin/edit-product', { product: product, editing: editing, title: "Edit - Online Store" });
         })
-        .catch(err => console.log(err));
-};
+        .catch(err => {
+            const error = new Error(err);
+            error.httpStatusCode = 500;
+            return next(error); 
+        });};
 
 exports.postEditProductData = (req, res, next) => {
     const data = req.body;
@@ -105,8 +116,9 @@ exports.postEditProductData = (req, res, next) => {
                 });
         })
         .catch(err => {
-            console.error('Update error:', err);
-            res.status(500).send('Update operation failed');
+            const error = new Error(err);
+            error.httpStatusCode = 500;
+            return next(error); 
         });
 };
 
@@ -117,5 +129,9 @@ exports.deleteProductData = (req, res, next) => {
         .then(result => {
             res.redirect('/admin/products-list');
         })
-        .catch(err => console.log(err));
+        .catch(err => {
+            const error = new Error(err);
+            error.httpStatusCode = 500;
+            return next(error); 
+        });
 };

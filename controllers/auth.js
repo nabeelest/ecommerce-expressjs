@@ -60,11 +60,17 @@ exports.postReset = (req, res, next) => {
                     console.log('email sent!')
                     res.redirect('/');
                 })
-                .catch(err => console.log(err));
-
+                .catch(err => {
+                    const error = new Error(err);
+                    error.httpStatusCode = 500;
+                    return next(error); 
+                });
         })
-        .catch(err => console.log(err));
-};
+        .catch(err => {
+            const error = new Error(err);
+            error.httpStatusCode = 500;
+            return next(error); 
+        });};
 
 exports.getForget = (req, res, next) => {
     res.render('user/forget-password', {
@@ -101,7 +107,11 @@ exports.postForget = (req, res, next) => {
                 })
                 res.redirect('/');
             })
-            .catch(err => console.log(err));
+            .catch(err => {
+                const error = new Error(err);
+                error.httpStatusCode = 500;
+                return next(error); 
+            });
     });
 };
 
@@ -225,13 +235,19 @@ exports.postSignup = (req, res, next) => {
             });
             res.render('user/success', { title: 'Signup Successful - Omega Social' });
         })
-        .catch(err => console.log(err));
-};
+        .catch(err => {
+            const error = new Error(err);
+            error.httpStatusCode = 500;
+            return next(error); 
+        });};
 
 exports.showUserData = (req, res, next) => {
     User.find()
         .then(users => {
             res.render('user/users', { users: users, title: "Users Signed Up" });
         })
-        .catch(err => { console.log(err) });
-};
+        .catch(err => {
+            const error = new Error(err);
+            error.httpStatusCode = 500;
+            return next(error); 
+        });};

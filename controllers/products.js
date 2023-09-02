@@ -31,7 +31,11 @@ exports.getProduct = (req,res,next) => {
             title: "Omega Shop - Online Store"
         });
     })
-    .catch(err => console.log(err))
+    .catch(err => {
+        const error = new Error(err);
+        error.httpStatusCode = 500;
+        return next(error); 
+    });
 }
 
 exports.getOrders = (req, res, next) => {
@@ -52,8 +56,9 @@ exports.getOrders = (req, res, next) => {
             res.render('shop/orders', { orders: formattedOrders, title: 'Order History' });
         })
         .catch(err => {
-            console.error('Error fetching orders:', err);
-            // Handle the error
+            const error = new Error(err);
+            error.httpStatusCode = 500;
+            return next(error); 
         });
 };
 
@@ -87,8 +92,9 @@ exports.postOrder = (req, res, next) => {
             res.redirect('/shop/checkout'); // Redirect to the checkout page
         })
         .catch(err => {
-            console.error('Error creating order:', err);
-            // Handle the error
+            const error = new Error(err);
+            error.httpStatusCode = 500;
+            return next(error); 
         });
 };
 
@@ -102,7 +108,11 @@ exports.showProductData = (req,res,next) => {
                 title: "Omega Shop - Online Store"
             });
         })
-        .catch(err => console.log(err));
+        .catch(err => {
+            const error = new Error(err);
+            error.httpStatusCode = 500;
+            return next(error); 
+        });
 }
 
 function formatDate(date) {

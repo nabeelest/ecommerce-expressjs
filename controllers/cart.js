@@ -18,9 +18,10 @@ exports.postCart = (req, res, next) => {
       res.redirect('/shop/cart');
     })
     .catch(err => {
-      console.error('Error adding product to cart:', err);
-      // Handle the error
-    });
+      const error = new Error(err);
+      error.httpStatusCode = 500;
+      return next(error); 
+  });
 };
 
 exports.deleteProduct = (req, res, next) => {
@@ -32,8 +33,10 @@ exports.deleteProduct = (req, res, next) => {
       res.redirect('/shop/cart');
     })
     .catch(err => {
-      console.error('Error removing product from cart:', err);
-    });
+      const error = new Error(err);
+      error.httpStatusCode = 500;
+      return next(error); 
+  });
 };
 
 exports.getCart = (req, res, next) => {
@@ -54,7 +57,9 @@ exports.getCart = (req, res, next) => {
       });
     })
     .catch(err => {
-      console.error('Error fetching cart:', err);
-    });
+      const error = new Error(err);
+      error.httpStatusCode = 500;
+      return next(error); 
+  });
 };
 
