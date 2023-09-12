@@ -1,5 +1,5 @@
 const Product = require('../models/product');
-const stripe = require('stripe')('sk_test_51NpDjzDZSel3MdxJ2VqzxkJPwAf2VZETIM3m5uxROulhiEjrOfMNXSr3mCuyPBkOIYzxJm4YefPwSVd0C8oSPP9U00nIVdc9F0');
+const stripe = require('stripe')('key');
 
 exports.postCart = (req, res, next) => {
   const productId = req.body.productId;
