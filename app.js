@@ -16,7 +16,7 @@ const adminRoutes = require('./routes/admin');
 const errors = require('./routes/errors');
 const rootDir = require('./util/path');
 
-URI = 'mongodb+srv://nabeelest:GxKQiM2gwJNDakkD@cluster0.lbt9rcl.mongodb.net/shop';
+URI = 'myURI';
 
 const app = express();
 
