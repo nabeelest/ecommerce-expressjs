@@ -129,3 +129,37 @@ footer {
     color: #fff;
     margin-top: 100px; /* Push the footer to the bottom of the page */
 }
+
+/* Pagination Styles */
+.pagination {
+    text-align: center;
+    margin-top: 20px;
+}
+
+.pagination-link {
+    display: inline-block;
+    padding: 6px 12px;
+    margin: 0 5px;
+    background-color: #4CAF50;
+    color: #fff;
+    text-decoration: none;
+    border-radius: 5px;
+    font-size: 14px;
+    transition: background-color 0.3s;
+}
+
+.pagination-link.active {
+    background-color: #45a049;
+}
+
+.pagination-link:hover {
+    background-color: #45a049;
+}
+
+.pagination-link:first-child {
+    margin-left: 0;
+}
+
+.pagination-link:last-child {
+    margin-right: 0;
+}

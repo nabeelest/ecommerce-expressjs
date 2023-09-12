@@ -1,0 +1,13 @@
+<div class="pagination">
+    <% if (currentPage > 1) { %>
+        <a href="?page=<%= currentPage - 1 %>" class="pagination-link">Previous</a>
+    <% } %>
+
+    <% for (let page = 1; page <= totalPages; page++) { %>
+        <a href="?page=<%= page %>" class="<%= page === currentPage ? 'active' : '' %> pagination-link"><%= page %></a>
+    <% } %>
+
+    <% if (currentPage < totalPages) { %>
+        <a href="?page=<%= currentPage + 1 %>" class="pagination-link">Next</a>
+    <% } %>
+</div>

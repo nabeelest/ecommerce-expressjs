@@ -1,6 +1,9 @@
 const Product = require('../models/product');
 const { validationResult } = require('express-validator');
 const mongoose = require('mongoose');
+const fileHelper = require('../util/file');
+
+const ITEMS_PER_PAGE = 3;
 
 exports.getAdminPanel = (req, res, next) => {
     res.render('admin/admin-panel', { title: "Admin Panel - Omega Social" });
@@ -8,15 +11,37 @@ exports.getAdminPanel = (req, res, next) => {
 
 // Get the Product List
 exports.getProductsList = (req, res, next) => {
+    const page = +req.query.page || 1; // Get the requested page number from the query parameter, default to 1 if not provided
+  
     Product.find()
-        .then(products => {
-            res.render('admin/products-list', { products: products, title: "Omega Shop - Online Store" });
-        })
-        .catch(err => {
+      .countDocuments() // Count the total number of products
+      .then(totalProducts => {
+        const totalPages = Math.ceil(totalProducts / ITEMS_PER_PAGE); // Calculate the total number of pages
+        const skip = (page - 1) * ITEMS_PER_PAGE; // Calculate the number of items to skip
+  
+        Product.find()
+          .skip(skip)
+          .limit(ITEMS_PER_PAGE)
+          .then(products => {
+            res.render('admin/products-list', {
+              products: products,
+              title: "Omega Shop - Online Store",
+              currentPage: page,
+              totalPages: totalPages,
+            });
+          })
+          .catch(err => {
             const error = new Error(err);
             error.httpStatusCode = 500;
-            return next(error); 
-        });};
+            return next(error);
+          });
+      })
+      .catch(err => {
+        const error = new Error(err);
+        error.httpStatusCode = 500;
+        return next(error);
+      });
+  };
 
 // Add a Product
 exports.getProductData = (req, res, next) => {
@@ -37,6 +62,7 @@ exports.getProductData = (req, res, next) => {
 exports.postProductData = (req, res, next) => {
     const data = req.body;
     const errors = validationResult(req);
+    const image = req.file;
     
     if (!errors.isEmpty()) {
         return res.status(422).render('admin/edit-product', {
@@ -51,9 +77,17 @@ exports.postProductData = (req, res, next) => {
         name: data.name,
         price: data.price,
         description: data.description,
-        url: data.url,
+        url: image.path,
         userId: req.user
     });
+    if(!image){
+        return res.status(422).render('admin/edit-product', {
+            title: "Edit - Online Store",
+            editing: true,
+            errorMessage: 'Attached File is not an image.',
+            product: data
+        });
+    }
     product.save()
         .then(result => {
             res.render('admin/product-success', { title: "Product Added - Omega Shop", product: data });
@@ -65,23 +99,28 @@ exports.postProductData = (req, res, next) => {
         });
 };
 
-// Edit a Product
+// Update a Product (POST request)
 exports.editProductData = (req, res, next) => {
     const productId = req.params.productId;
+    const updatedImage = req.file; // Access the uploaded file
     const editing = req.query.editing;
+
+
     Product.findById(productId)
         .then(product => {
-            res.render('admin/edit-product', { product: product, editing: editing, title: "Edit - Online Store" });
+            console.log(product);
+            res.render('admin/edit-product', { product: product, editing: editing,errorMessage: undefined, title: "Edit - Online Store" });
         })
         .catch(err => {
             const error = new Error(err);
             error.httpStatusCode = 500;
             return next(error); 
-        });};
+        });
+};
 
 exports.postEditProductData = (req, res, next) => {
     const data = req.body;
-
+    const image = req.file;
     const errors = validationResult(req);
     
     if (!errors.isEmpty()) {
@@ -89,7 +128,11 @@ exports.postEditProductData = (req, res, next) => {
             title: "Edit - Online Store",
             editing: true,
             errorMessage: errors.array()[0].msg,
-            product: data
+            product: {
+                name: data.name,
+                price: data.price,
+                description: data.description,
+            }
         });
     }
 
@@ -104,7 +147,10 @@ exports.postEditProductData = (req, res, next) => {
             product.name = data.name;
             product.price = data.price;
             product.description = data.description;
-            product.url = data.url;
+            if(image){
+                fileHelper.deleteFile(product.url);
+                product.url = image.path;
+            }
 
             return product.save()
                 .then(result => {
@@ -123,15 +169,20 @@ exports.postEditProductData = (req, res, next) => {
 };
 
 // Delete A Product
-exports.deleteProductData = (req, res, next) => {
+exports.deleteProduct = (req, res, next) => {
     const productId = req.params.productId;
-    Product.deleteOne({ _id: productId, userId: req.user._id })
-        .then(result => {
-            res.redirect('/admin/products-list');
-        })
-        .catch(err => {
-            const error = new Error(err);
-            error.httpStatusCode = 500;
-            return next(error); 
-        });
+    Product.findById(productId)
+    .then(product => {
+        if(!product){
+            return next(new Error('Product Not Found!'));
+        }
+        fileHelper.deleteFile(product.url);
+        return Product.deleteOne({ _id: productId, userId: req.user._id })
+    })
+    .then(result => {
+        res.status(200).json({message: 'Success!'});
+    })
+    .catch(err => {
+        res.status(500).json({message: 'Delete product failed!'});
+    });
 };

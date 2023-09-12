@@ -10,13 +10,14 @@
         <% if(products.length > 0) {  %>
             <% for(let product of products){ %>
                 <div class="product">
-                    <img src="<%=product.url%>">
+                    <img src="/<%=product.url%>">
                     <div class="product-title"><%=product.name%></div>
                     <div class="product-description"><%=product.description%></div>
                     <div class="product-price">$<%=product.price%></div>
                     <div class="button-container">
                         <a href="/admin/edit-product/<%=product._id%>?editing=true"  class="cta-button delete">Edit</a>
-                        <a href="/admin/delete-product/<%=product._id%>" class="cta-button delete">Delete</a>
+                        <input type="hidden" name="productId" value="<%=product._id%>">
+                        <button class="cta-button delete" type="button" onclick="deleteProduct(this)">Delete</button>
                     </div>
                 </div>
             <% } %>
@@ -26,9 +27,11 @@
             </div>
         <% } %> 
     </div>
+    <%- include('../includes/pagination.ejs')%>
     <div class="container">
         <a href="/" class="cta-button">Go to Home</a>
     </div>
     <%- include('../includes/footer.ejs')%>
 </body>
+<script src="/js/admin.js"></script>
 </html>

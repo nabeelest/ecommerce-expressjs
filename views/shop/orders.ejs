@@ -11,14 +11,14 @@
             <% for(let order of orders) { %>
                 <div class="order">
                     <div class="order-details">
-                        <div class="order-id">Order ID: <%= order.orderId %></div>
+                        <div class="order-id">Order ID: <%= order.orderId %><a href="/shop/orders/<%=order.orderId%>">-Invoice</a></div>
                         <div class="order-date">Order Date: <%= order.orderDate %></div>
                         <div class="order-total">Total: $<%= order.totalAmount %></div>
                     </div>
                     <div class="order-products">
                         <% for(let product of order.products) { %>
                             <div class="product">
-                                <img src="<%= product.productUrl %>" alt="Product Image">
+                                <img src="/<%= product.productUrl %>" alt="Product Image">
                                 <div class="product-info">
                                     <h2><%= product.productName %></h2>
                                     <div class="product-price">Price: $<%= product.productPrice %></div>

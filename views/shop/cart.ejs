@@ -11,7 +11,7 @@
                 <% for(let product of products) { %>
                     <div class="cart-item">
                         <div class="item-image">
-                            <img src="<%=product.productId.url%>" alt="Product Image">
+                            <img src="/<%=product.productId.url%>" alt="Product Image">
                         </div>
                         <div class="item-details">
                             <h2><%=product.productId.name%></h2>
@@ -28,9 +28,25 @@
             </div>
             <div class="cart-total">
                 <h2>Cart Total: $<%= totalPrice %></h2>
-                <form action="/shop/create-order" method="post">
+                <!-- <form action="/shop/create-order" method="post">
                     <button type="submit" href="/shop/checkout" class="checkout-button">Proceed to Checkout</button>
-                </form>
+                </form> -->
+            </div>
+            <div class="cart-total">
+                <button type="submit" id="order-button" class="checkout-button">Proceed to Checkout</button>
+                <% if(products.length > 0) { %>
+
+                <script src="https://js.stripe.com/v3/"></script>
+                <script>
+                    var stripe = Stripe('pk_test_51NpDjzDZSel3MdxJszqQSfB4WCPjGAmbMxbXYFOhJFm3HEtRh02eB9XB3xToO6VrBT9wdtceKwsgc1Dbu8AYaKNk00njaVRRRU');
+                    var orderBtn = document.getElementById('order-button');
+                    orderBtn.addEventListener('click',function(){
+                        stripe.redirectToCheckout({
+                            sessionId: '<%= stripeSessionId %>'
+                        });
+                    });
+                </script>
+                <% } %>
             </div>
         <% } else { %>
             <div class="no-items">

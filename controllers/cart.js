@@ -1,4 +1,5 @@
 const Product = require('../models/product');
+const stripe = require('stripe')('sk_test_51NpDjzDZSel3MdxJ2VqzxkJPwAf2VZETIM3m5uxROulhiEjrOfMNXSr3mCuyPBkOIYzxJm4YefPwSVd0C8oSPP9U00nIVdc9F0');
 
 exports.postCart = (req, res, next) => {
   const productId = req.body.productId;
@@ -40,26 +41,59 @@ exports.deleteProduct = (req, res, next) => {
 };
 
 exports.getCart = (req, res, next) => {
-  req.user.populate('cart.items.productId')
-  .then(user => {
+  req.user
+    .populate('cart.items.productId')
+    .then(user => {
       const products = user.cart.items;
-      let totalPrice = 0;
+      const successUrl = req.protocol + '://' + req.get('host') + '/shop/order/success';
+      const cancelUrl = req.protocol + '://' + req.get('host') + '/shop/order/failure';
 
-      products.forEach(product => {
-        if (product.productId) {
-          totalPrice += product.productId.price * product.quantity;
-        }
-      });
-      res.render('shop/cart', {
-        products: products,
-        totalPrice: totalPrice,
-        title: 'Omega Shop - Online Store'
+      // Check if the cart is empty
+      if (products.length === 0) {
+        return res.render('shop/cart', {
+          products: [],
+          totalPrice: 0,
+          title: 'Omega Shop - Online Store',
+          stripeSessionId: null, // Set stripeSessionId to null if cart is empty
+        });
+      }
+
+      stripe.checkout.sessions.create({
+        payment_method_types: ['card'],
+        line_items: products.map(product => ({
+          price_data: {
+            currency: 'usd',
+            unit_amount: Math.round(product.productId.price * 100),
+            product_data: {
+              name: product.productId.name,
+              description: product.productId.description,
+            },
+          },
+          quantity: product.quantity,
+        })),
+        mode: 'payment',
+        success_url: successUrl,
+        cancel_url: cancelUrl,
+      })
+      .then(session => {
+        const totalPrice = req.user.cart.items.reduce((total, product) => {
+          return total + product.productId.price * product.quantity;
+        }, 0);
+  
+        res.render('shop/cart', {
+          products: req.user.cart.items,
+          totalPrice: totalPrice,
+          title: 'Omega Shop - Online Store',
+          stripeSessionId: session.id,
+        });
       });
     })
     .catch(err => {
       const error = new Error(err);
       error.httpStatusCode = 500;
-      return next(error); 
-  });
+      return next(error);
+    });
 };
+
+
 

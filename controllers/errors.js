@@ -3,5 +3,5 @@ exports.error404 = (req,res,next)=>{
 }
 
 exports.error505 = (req,res,next)=>{
-    res.status(505).render('errors/505',{title:'Error 505  - Omega Social', errorCSS: true})
+    res.status(505).render('errors/505',{title:'Error 505  - Omega Social', errorCSS: true});
 }

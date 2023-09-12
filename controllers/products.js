@@ -1,6 +1,13 @@
 const Product = require('../models/product');
 const Order = require('../models/order');
 const User = require('../models/user');
+const fs = require('fs');
+const path = require('path');
+const rootDir = require('../util/path');
+const PDFDocument = require('pdfkit');
+
+const ITEMS_PER_PAGE = 3; // Adjust the number of items per page as needed
+
 
 
 exports.getCheckout = (req,res,next) => {
@@ -8,6 +15,40 @@ exports.getCheckout = (req,res,next) => {
         title: "Add Product - Omega Shop"
     });
 }
+
+exports.getInvoice = (req, res, next) => {
+    const orderId = req.params.orderId;
+
+    Order.findById(orderId).then(order =>{
+        if(!order){
+            return next(new Error("Order not found."));
+        }
+        if (order.user.userId.toString() !== req.user._id.toString()){
+            return next(new Error('Unauthorized'));
+        }
+        const invoiceName = `invoice-${orderId}.pdf`;
+        const invoicePath = path.join(rootDir, 'data', 'invoices', invoiceName);  
+        const pdfDoc = new PDFDocument();
+
+        // const pdfStream = fs.createReadStream(invoicePath);
+        // res.setHeader('Content-Type', 'application/pdf');
+        // res.setHeader('Content-Disposition', `inline; filename="${invoiceName}"`);
+        // pdfStream.pipe(res);
+        res.setHeader('Content-Type', 'application/pdf');
+        res.setHeader('Content-Disposition', `inline; filename="${invoiceName}"`);
+        pdfDoc.fontSize(12).text(`Order Date: ${order.orderDate}`, { align: 'left' });
+        pdfDoc.fontSize(12).text(`Total Amount: $${order.totalAmount}`, { align: 'left' });
+
+        pdfDoc.pipe(fs.createWriteStream(invoicePath))
+        pdfDoc.pipe(res);
+
+        pdfDoc.fontSize(14).text(`Invoice for Order #${orderId}`, { align: 'center' });
+
+        pdfDoc.end();
+    })
+    .catch(err => next(err));
+};
+
 
 exports.postCheckout = (req, res, next) => {
     const address = req.body.address;
@@ -81,7 +122,6 @@ exports.postOrder = (req, res, next) => {
                 },
                 products: products
             });
-
             return order.save();
         })
         .then(result => {
@@ -89,7 +129,7 @@ exports.postOrder = (req, res, next) => {
             return req.user.clearCart();
         })
         .then(result => {
-            res.redirect('/shop/checkout'); // Redirect to the checkout page
+            res.redirect('/shop');        
         })
         .catch(err => {
             const error = new Error(err);
@@ -100,20 +140,38 @@ exports.postOrder = (req, res, next) => {
 
 
 
-exports.showProductData = (req,res,next) => {
-    Product.find({userId: req.user._id})
-        .then(products => {
-            res.render('shop/shop',{
-                products: products, 
-                title: "Omega Shop - Online Store"
+exports.showProductData = (req, res, next) => {
+    const page = +req.query.page || 1; // Get the requested page number from the query parameter, default to 1 if not provided
+  
+    Product.find({ userId: req.user._id })
+      .countDocuments() // Count the total number of products
+      .then(totalProducts => {
+        const totalPages = Math.ceil(totalProducts / ITEMS_PER_PAGE); // Calculate the total number of pages
+        const skip = (page - 1) * ITEMS_PER_PAGE; // Calculate the number of items to skip
+  
+        Product.find({ userId: req.user._id })
+          .skip(skip)
+          .limit(ITEMS_PER_PAGE)
+          .then(products => {
+            res.render('shop/shop', {
+              products: products,
+              title: "Omega Shop - Online Store",
+              currentPage: page,
+              totalPages: totalPages,
             });
-        })
-        .catch(err => {
+          })
+          .catch(err => {
             const error = new Error(err);
             error.httpStatusCode = 500;
-            return next(error); 
-        });
-}
+            return next(error);
+          });
+      })
+      .catch(err => {
+        const error = new Error(err);
+        error.httpStatusCode = 500;
+        return next(error);
+      });
+  };
 
 function formatDate(date) {
     return date.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
@@ -124,7 +182,6 @@ function calculateTotalAmount(items) {
         const itemPrice = parseFloat(item.productData.price); // Convert to number if needed
         const itemQuantity = parseInt(item.quantity); // Convert to number if needed
 
-        console.log(`item: ${JSON.stringify(item)}, price=${itemPrice}, quantity=${itemQuantity}`);
 
         if (!isNaN(itemPrice) && !isNaN(itemQuantity)) {
             return total + (itemPrice * itemQuantity);

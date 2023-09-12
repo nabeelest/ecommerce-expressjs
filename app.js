@@ -1,6 +1,7 @@
 const express = require('express');
 const path = require('path');
 const bodyParser = require('body-parser');
+const multer = require('multer');
 const session = require('express-session');
 const MongoDBStore = require('connect-mongodb-session')(session);
 const mongoose = require('mongoose');
@@ -55,8 +56,34 @@ app.use((req, res, next) => {
 app.set('view engine','ejs');
 app.set('views','views');
 
+const fileStorage = multer.diskStorage({
+    destination: (req, file, cb) => {
+      cb(null, 'images'); // Destination directory where uploaded files will be stored
+    },
+    filename: (req, file, cb) => {
+      const timestamp = Date.now();
+      cb(null, `${timestamp}-${file.originalname}`); // Set the filename for the uploaded file
+    },
+  });
+
+const fileFilter = (req, file, cb) => {
+    const allowedFileTypes = /jpeg|jpg|png/;
+    const extname = allowedFileTypes.test(path.extname(file.originalname).toLowerCase());
+    const mimetype = allowedFileTypes.test(file.mimetype);
+  
+    if (extname && mimetype) {
+      cb(null, true); // Accept the file
+    } else {
+      cb(null, false);
+    }
+  };
+  
+
 app.use(bodyParser.urlencoded({extended: false}));
+app.use(multer({storage: fileStorage,fileFilter: fileFilter}).single('image'));
 app.use(express.static(path.join(rootDir, 'public')));
+app.use('/images', express.static(path.join(rootDir, 'images')));
+
 
 app.use('/user', usersRoutes);
 app.use('/shop', shopRoutes);
@@ -69,8 +96,10 @@ app.use(errors);
 
 
 app.use((error,req,res,next) => {
+    console.log(error);
     res.status(505).render('errors/505',{title:'Error 505  - Omega Social', errorCSS: true});
 });
+
 mongoose.connect(URI)
     .then(result => {
         app.listen(3000);

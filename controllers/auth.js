@@ -215,6 +215,7 @@ exports.postSignup = (req, res, next) => {
             }
         });
     }
+
     // Hash password
     bcrypt.hash(data.password, 12)
         .then(hashedPassword => {
@@ -222,7 +223,8 @@ exports.postSignup = (req, res, next) => {
                 username: data.username,
                 email: data.email,
                 password: hashedPassword,
-                cart: { items: [] }
+                cart: { items: [] },
+                country: data.country
             });
             return user.save();
         })
@@ -236,10 +238,13 @@ exports.postSignup = (req, res, next) => {
             res.render('user/success', { title: 'Signup Successful - Omega Social' });
         })
         .catch(err => {
+            console.error(err); // Log the error
             const error = new Error(err);
             error.httpStatusCode = 500;
             return next(error); 
-        });};
+        });
+};
+
 
 exports.showUserData = (req, res, next) => {
     User.find()
